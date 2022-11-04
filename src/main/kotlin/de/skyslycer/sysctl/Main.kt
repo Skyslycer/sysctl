@@ -9,6 +9,7 @@ import dev.kord.core.event.interaction.GuildChatInputCommandInteractionCreateEve
 import dev.kord.core.on
 import dev.kord.rest.builder.interaction.user
 import io.github.cdimascio.dotenv.dotenv
+import kotlinx.coroutines.flow.map
 
 suspend fun main() {
     val dotenv = dotenv {
@@ -38,6 +39,19 @@ suspend fun main() {
         val response = interaction.deferEphemeralResponse()
         val command = interaction.command
         val user = command.users["user"]!!
+        var hasRole = false
+        server.getMember(interaction.user.id).roles.map { it.id }.collect {
+            if (it == Snowflake(
+                    voucherRoleId
+                )
+            ) hasRole = true
+        }
+        if (!hasRole) {
+            response.respond {
+                content = "You need to have the `rw` role to vouch for other users!"
+            }
+            return@on
+        }
         response.respond {
             content = "Successfully vouched for the user ${user.tag}!"
         }
@@ -47,5 +61,3 @@ suspend fun main() {
 
     kord.login()
 }
-
-class SysCtlBot
