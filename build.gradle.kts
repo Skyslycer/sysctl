@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.7.20"
     application
+    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 group = "de.skyslycer"
@@ -22,6 +23,15 @@ dependencies {
     implementation("io.github.cdimascio:dotenv-kotlin:6.3.1")
 }
 
+tasks {
+    build {
+        dependsOn(shadowJar)
+    }
+    shadowJar {
+        archiveClassifier.set("")
+    }
+}
+
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "16"
+    kotlinOptions.jvmTarget = "17"
 }
