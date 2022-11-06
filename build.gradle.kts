@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.7.20"
+    kotlin("plugin.serialization") version "1.7.20"
     application
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
@@ -21,6 +22,8 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation("dev.kord:kord-core:0.8.0-M16")
     implementation("io.github.cdimascio:dotenv-kotlin:6.3.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+    implementation("org.json:json:20220924")
 }
 
 tasks {
